@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { getData } from '../selectors';
+import connect from 'redux'
 import './index.css'
+
 const AutocompleteInput = () => {
   // { value: 'Car', canRemove: false }, { value: 'Dog', canRemove: false }, { value: 'Cat', canRemove: false }
   const [inputValue, setInputValue] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [searched, setSearched] = useState([])
   const [display, setDisplay] = useState('none')
-  const [results, setResults] = useState([
-    { title: 'React', description: `React is a community. It's a place where you can ask for help, find opportunities, and meet new friends. You will meet both developers and designers, beginners ...` },
-    { title: 'React – A JavaScript library for building user interfaces', description: `React makes it painless to create interactive UIs. Design simple views for each state in your application, and React will efficiently update and render just ...` }
-  ])
+ 
   const [resultVisibility, setResultvisibility] = useState('none')
+
+  const data = useSelector(getData)
 
   const handleInputChange = (e) => {
     const value = e.target.value;
@@ -68,7 +71,7 @@ const AutocompleteInput = () => {
   }
 
 
-  // console.log(suggestions)
+  console.log('dataaa::', data)
 
   return (
     <div className='main'
@@ -85,7 +88,7 @@ const AutocompleteInput = () => {
         onFocus={handleFocusIn}
         onBlur={handleFocusOut}
       />
-      <div
+      <datalist
         className='suggestions' id="suggestions"
         onFocus={handleFocusIn}
 
@@ -120,7 +123,7 @@ const AutocompleteInput = () => {
           }
           )
         }
-      </div>
+      </datalist>
 
       <div
         style={{ display: resultVisibility }}
@@ -131,20 +134,22 @@ const AutocompleteInput = () => {
         </div>
         <div className='resultInnerContainer'>
           {
-            results.map((item, index) => {
-              return (
-                <div
-                  className='resultRow'
-                  key={index}
-                >
-                  <a href='/' className='title'>
-                    {item.title}
-                  </a>
-                  <div>
-                    {item.description}
+            data.map((item, index) => {
+              if (item.title.startsWith(inputValue)) {
+                return (
+                  <div
+                    className='resultRow'
+                    key={index}
+                  >
+                    <a href='/' className='title'>
+                      {item.title}
+                    </a>
+                    <div>
+                      {item.description}
+                    </div>
                   </div>
-                </div>
-              )
+                )
+              }
             })
           }
         </div>
@@ -153,5 +158,10 @@ const AutocompleteInput = () => {
     </div>
   );
 };
+
+
+// const mapStateToProps = state => {
+
+// }
 
 export default AutocompleteInput;
