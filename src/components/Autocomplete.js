@@ -35,23 +35,28 @@ const AutocompleteInput = () => {
  
   };
 
-  const handleInputClick = () => {
-    // let newSuggestions = [...searched]
-    // setSuggestions(newSuggestions)
+  const handleButtonClick = () => {
+    let hasValue = suggestions.find(i => i.value === inputValue.toLowerCase())  
+      setResultvisibility('block')
+      setResult([{title: inputValue, description: 'ala bala'}])
     
+      if (inputValue !== '' && !hasValue) {
+        let newSearched = [...suggestions]
+        newSearched.unshift({ value: inputValue, canRemove: true })
+        setSuggestions(newSearched)
+      }
   }
 
   const handlePressDown = (e) => {
-    
     const value = e.target.value;
-    let hasValue = suggestions.find(i => i.value === value)
+    let hasValue = suggestions.find(i => i.value === value.toLowerCase())
+    
     if (e.key === 'Enter') {
       setResultvisibility('block')
       value.trim()
-      let matched = data.filter(item => item.title.toLowerCase().startsWith(value))
-      if (data.filter(item => item.title.toLowerCase().startsWith(value)).length > 0) {
-        setSuggestions(matched)
-        setResult(matched)
+      // let matched = data.filter(item => item.title.toLowerCase().startsWith(value.toLowerCase()))
+      setResult([{title: value, description: 'ala bala'}])
+      if (data.filter(item => item.title.toLowerCase().startsWith(value.toLowerCase())).length > 0) {
       }
       if (value !== '' && !hasValue) {
         let newSearched = [...suggestions]
@@ -83,27 +88,33 @@ const AutocompleteInput = () => {
     setInputValue(item)
   }
 
-  console.log('data: ', data)
-
+  // console.log('data: ', data)   
+  
   return (
-    <div className='main'
-    >
+    <div className='main'>
       <div className='inner'>
-        <input
-          className='input'
-          type="text"
-          value={inputValue}
-          onChange={handleInputChange}
-          list="suggestions"
-          onClick={handleInputClick}
-          onKeyDown={handlePressDown}
-          onFocus={handleFocusIn}
-          onBlur={handleFocusOut}
-        />
+        <div className='input-container'>
+          <input
+            className='input'
+            type="text"
+            value={inputValue}
+            onChange={handleInputChange}
+            list="suggestions"
+            // onClick={handleInputClick}
+            onKeyDown={handlePressDown}
+            onFocus={handleFocusIn}
+            onBlur={handleFocusOut}
+          />
+          <div 
+            className='search-bttn'
+            onClick={() => handleButtonClick()}
+            >
+            Search
+          </div>
+        </div>
         <datalist
           className='suggestions' id="suggestions"
           onFocus={handleFocusIn}
-
           style={{ display: display, border: `${(display === 'block' && searched.length > 0) ? '1px solid rgb(185, 174, 174)' : '0px'}` }}
         >
           {
@@ -130,7 +141,6 @@ const AutocompleteInput = () => {
                     </svg>
                   }
                 </div>
-
               )
             }
             )
@@ -141,24 +151,29 @@ const AutocompleteInput = () => {
           style={{ display: resultVisibility }}
           className='resultContainer'
         >
-          <div className='resultCount'>
-            Около 478 000 резултата (0.55 секунди)
-          </div>
           <div className='resultInnerContainer'>
             {
               result?.map((item, index) => {
                 return (
-                  <div
+                  <table key={index}>
+                  <thead
                     className='resultRow'
                     key={index}
                   >
-                    <a href='/' className='title'>
-                      {item.title}
-                    </a>
-                    <div>
-                      {item.description}
-                    </div>
-                  </div>
+                    <tr>
+                      <td className='title'>
+                        {item.title}
+                      </td>
+                    </tr>
+                  </thead>
+                    <tbody className='resultRow'>
+                    <tr>
+                      <td className='title'>
+                        {item.description}
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
                 )
               })
             }

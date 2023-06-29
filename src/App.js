@@ -1,6 +1,5 @@
-import logo from './logo.svg';
-import './App.css';
 import AutocompleteInput from './components/Autocomplete';
+import './App.css';
 
 function App() {
   return (

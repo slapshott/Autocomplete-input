@@ -20,15 +20,6 @@ export const fetchData = () => {
           { title: 'React – A JavaScript library for building user interfaces', description: `React makes it painless to create interactive UIs. Design simple views for each state in your application, and React will efficiently update and render just ...` },
           { title: 'Redux - A predictable state container for JavaScript apps ...', description: 'Redux helps you write applications that behave consistently, run in different environments (client, server, and native), and are easy to test.'}
         ] });
-
-    // Perform asynchronous operation (e.g., API call)
-    // fetch('https://api.example.com/data')
-    //   .then(response => response.json())
-    //   .then(data => {
-    //   })
-    //   .catch(error => {
-    //     dispatch({ type: 'FETCH_DATA_FAILURE', payload: error });
-    //   });
   };
 };
       
