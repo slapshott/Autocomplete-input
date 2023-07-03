@@ -1,1 +1,3 @@
-# Autocomplete-input
+# Input with button
+
+- additional suggestions functionality with remove option 
