@@ -1,19 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getData } from '../selectors';
 import { fetchData, fetchDataRequest } from '../requests'
-import connect from 'redux'
-import './index.css'
+import { Box, Typography, Button } from '@material-ui/core';
+// import connect from 'redux'
+import './index.scss'
 
-const AutocompleteInput = () => {
+const Input = () => {
   const [inputValue, setInputValue] = useState('');
+  const [title, setTitle] = useState('Hello world');
   const [suggestions, setSuggestions] = useState([]);
   const [searched, setSearched] = useState([])
   const [display, setDisplay] = useState('none')
-  const [result, setResult] = useState([])
+  const [result, setResult] = useState()
   const [resultVisibility, setResultvisibility] = useState('none')
   const dispatch = useDispatch();
   const data = useSelector(getData)
+  const inputRef = useRef()
 
   useEffect(() => {
     dispatch(fetchData())
@@ -24,38 +27,39 @@ const AutocompleteInput = () => {
     setInputValue(value)
     let newSearched = suggestions.filter((item) => {
       return item.value
-      .toLowerCase()
-      .startsWith(value.toLowerCase())
+        .toLowerCase()
+        .startsWith(value.toLowerCase())
     });
     if (newSearched.length > 0) {
       setSearched(newSearched)
     } else {
       setSearched([])
     }
- 
+
   };
 
   const handleButtonClick = () => {
-    let hasValue = suggestions.find(i => i.value === inputValue.toLowerCase())  
-      setResultvisibility('block')
-      setResult([{title: inputValue, description: 'ala bala'}])
-    
-      if (inputValue !== '' && !hasValue) {
-        let newSearched = [...suggestions]
-        newSearched.unshift({ value: inputValue, canRemove: true })
-        setSuggestions(newSearched)
-      }
+    let hasValue = suggestions.find(i => i.value === inputValue.toLowerCase())
+    setResultvisibility('block')
+    setResult(data)
+    setTitle(inputRef.current.value)
+    if (inputValue !== '' && !hasValue) {
+      let newSearched = [...suggestions]
+      newSearched.unshift({ value: inputValue, canRemove: true })
+      setSuggestions(newSearched)
+    }
   }
 
   const handlePressDown = (e) => {
     const value = e.target.value;
     let hasValue = suggestions.find(i => i.value === value.toLowerCase())
-    
+
     if (e.key === 'Enter') {
+      setTitle(value)
       setResultvisibility('block')
       value.trim()
       // let matched = data.filter(item => item.title.toLowerCase().startsWith(value.toLowerCase()))
-      setResult([{title: value, description: 'ala bala'}])
+      setResult(data)
       if (data.filter(item => item.title.toLowerCase().startsWith(value.toLowerCase())).length > 0) {
       }
       if (value !== '' && !hasValue) {
@@ -89,26 +93,26 @@ const AutocompleteInput = () => {
   }
 
   // console.log('data: ', data)   
-  
+
   return (
     <div className='main'>
       <div className='inner'>
         <div className='input-container'>
           <input
+            ref={inputRef}
             className='input'
             type="text"
             value={inputValue}
             onChange={handleInputChange}
             list="suggestions"
-            // onClick={handleInputClick}
             onKeyDown={handlePressDown}
             onFocus={handleFocusIn}
             onBlur={handleFocusOut}
           />
-          <div 
+          <div
             className='search-bttn'
             onClick={() => handleButtonClick()}
-            >
+          >
             Search
           </div>
         </div>
@@ -122,11 +126,13 @@ const AutocompleteInput = () => {
               return (
                 <div
                   onFocus={handleFocusIn}
-                  onClick={() => onHandleChoose(item.value)}
+                  
                   key={index}
                   className='suggestionsContainer'
                 >
-                  <div>
+                  <div 
+                    onClick={() => onHandleChoose(item.value)}
+                  >
                     {item.value}
                   </div>
                   {
@@ -146,7 +152,9 @@ const AutocompleteInput = () => {
             )
           }
         </datalist>
-
+        <div className='inputValue'>
+          {title}
+        </div>
         <div
           style={{ display: resultVisibility }}
           className='resultContainer'
@@ -156,22 +164,22 @@ const AutocompleteInput = () => {
               result?.map((item, index) => {
                 return (
                   <table key={index}>
-                  <thead
-                    className='resultRow'
-                    key={index}
-                  >
-                    <tr>
-                      <td className='title'>
-                        {item.title}
-                      </td>
-                    </tr>
-                  </thead>
+                    <thead
+                      className='resultRow'
+                      key={index}
+                    >
+                      <tr>
+                        <td className='title'>
+                          {item.title}
+                        </td>
+                      </tr>
+                    </thead>
                     <tbody className='resultRow'>
-                    <tr>
-                      <td className='title'>
-                        {item.description}
-                      </td>
-                    </tr>
+                      <tr>
+                        <td className='description'>
+                          {item.description}
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                 )
@@ -179,6 +187,16 @@ const AutocompleteInput = () => {
             }
           </div>
         </div>
+      </div>
+      <div>
+        {/* <Box>
+          <Typography variant="h4">Wireframe Example</Typography>
+          <Box mt={2}>
+            <Button variant="contained" color="primary">
+              Click Me
+            </Button>
+          </Box>
+        </Box> */}
       </div>
     </div>
   );
@@ -189,4 +207,4 @@ const AutocompleteInput = () => {
 
 // }
 
-export default AutocompleteInput;
+export default Input;

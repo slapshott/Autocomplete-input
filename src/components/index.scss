@@ -1,0 +1,108 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+
+  .inner {
+    padding: 10rem;
+    width: 50%;
+    .input-container {
+      display: flex;
+
+      .input {
+        width: 300px;
+        height: 30px;
+        padding: 0 10px;
+        border: 1px solid gray;
+        border-radius: 10px;
+      }
+
+      .search-bttn {
+        border: 1px solid rgba(159, 162, 171, 0.88);
+        border-radius: 12px;
+        width: 120px;
+        height: 30px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 2px;
+        margin-left: 30px;
+        cursor: pointer;
+        background-color: rgba(212, 215, 227, 0.88);
+        box-shadow: 0px 2px 2px 0px rgba(32,33,36,.28);;
+      }
+
+    }
+
+    .inputValue {
+      font-size: 40px;
+      margin-top: 1rem;
+    }
+
+    .resultContainer {
+      margin-top: 1rem;
+
+      .resultInnerContainer{
+        // width: ;
+        margin-top: 2rem;
+        border: 1px solid black;
+
+        .resultRow {
+          margin-top: 1rem;
+
+          .title {
+            font-size: 20px;
+            color: rgb(134, 78, 134);
+            border: 1px solid rgb(69, 57, 121)
+          }
+
+          .description {
+            font-size: 16px;
+            border: 1px solid rgb(69, 57, 121)
+          }
+        } 
+      }
+    }
+
+  }
+}
+
+.suggestions {
+  width: 322px;
+  z-index: 1000;
+  position: absolute;
+  background-color: white;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 4px 6px rgba(32,33,36,.28);
+
+  .suggestionsContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    cursor: pointer;
+
+    .close{
+      width: 15px; 
+      height: 15px; 
+      cursor: pointer
+    }
+  }
+
+  .suggestionsContainer:hover {
+    background-color: #fafafa;
+    border-radius: 0 0 10px 10px;
+  }
+
+}
+
+
+
+
+
+
+
