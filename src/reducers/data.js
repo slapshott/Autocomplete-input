@@ -1,17 +1,15 @@
-import { fetchDataSuccess } from '../requests'
-
 const initialState = {
   data: []
 };
 
 
-const data = (state = initialState, action) => {
+const data = (state = initialState, {type, payload}) => {
  
-  switch (action.type) {
+  switch (type) {
     case 'FETCH_DATA_SUCCESS':
       return {
         ...state,
-        data: action.payload
+        data: payload
       };
     default:
       return state;

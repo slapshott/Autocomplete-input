@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getData } from '../selectors';
-import { fetchData, fetchDataRequest } from '../requests'
-import { Box, Typography, Button } from '@material-ui/core';
-// import connect from 'redux'
+import { fetchData } from '../requests'
 import './index.scss'
 
 const Input = () => {
@@ -20,7 +18,7 @@ const Input = () => {
 
   useEffect(() => {
     dispatch(fetchData())
-  }, [])
+  }, [dispatch])
 
   const handleInputChange = (e) => {
     const value = e.target.value;
@@ -56,12 +54,10 @@ const Input = () => {
 
     if (e.key === 'Enter') {
       setTitle(value)
+      setResult(data)
       setResultvisibility('block')
       value.trim()
-      // let matched = data.filter(item => item.title.toLowerCase().startsWith(value.toLowerCase()))
-      setResult(data)
-      if (data.filter(item => item.title.toLowerCase().startsWith(value.toLowerCase())).length > 0) {
-      }
+  
       if (value !== '' && !hasValue) {
         let newSearched = [...suggestions]
         newSearched.unshift({ value: value, canRemove: true })
@@ -91,8 +87,6 @@ const Input = () => {
   const onHandleChoose = (item) => {
     setInputValue(item)
   }
-
-  // console.log('data: ', data)   
 
   return (
     <div className='main'>
@@ -188,23 +182,8 @@ const Input = () => {
           </div>
         </div>
       </div>
-      <div>
-        {/* <Box>
-          <Typography variant="h4">Wireframe Example</Typography>
-          <Box mt={2}>
-            <Button variant="contained" color="primary">
-              Click Me
-            </Button>
-          </Box>
-        </Box> */}
-      </div>
     </div>
   );
 };
-
-
-// const mapStateToProps = state => {
-
-// }
 
 export default Input;

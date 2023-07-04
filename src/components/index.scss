@@ -1,3 +1,5 @@
+
+@import '../variables.scss';
 .main {
   display: flex;
   flex-direction: column;
@@ -16,12 +18,12 @@
         width: 300px;
         height: 30px;
         padding: 0 10px;
-        border: 1px solid gray;
+        border: 1px solid $borderGray;
         border-radius: 10px;
       }
 
       .search-bttn {
-        border: 1px solid rgba(159, 162, 171, 0.88);
+        border: 1px solid $borderGray;
         border-radius: 12px;
         width: 120px;
         height: 30px;
@@ -47,7 +49,6 @@
       margin-top: 1rem;
 
       .resultInnerContainer{
-        // width: ;
         margin-top: 2rem;
         border: 1px solid black;
 
@@ -56,13 +57,13 @@
 
           .title {
             font-size: 20px;
-            color: rgb(134, 78, 134);
-            border: 1px solid rgb(69, 57, 121)
+            color: $title;
+            border: 1px solid $tableBorder
           }
 
           .description {
             font-size: 16px;
-            border: 1px solid rgb(69, 57, 121)
+            border: 1px solid $tableBorder
           }
         } 
       }

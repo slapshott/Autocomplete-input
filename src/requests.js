@@ -12,21 +12,20 @@ export const fetchDataFailure = (error) => ({
   payload: error,
 });
 
+
 export const fetchData = () => {
-  // fetch('https://...')
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       dispatch({ type: 'FETCH_DATA_SUCCESS', payload: data });
-  //     })
-  //     .catch(error => {
-  //       dispatch({ type: 'FETCH_DATA_ERROR', payload: error.message });
-  //     });
-  return (dispatch, getState) => {
-        dispatch({ type: 'FETCH_DATA_SUCCESS', payload: [
-          { title: '234234', description: `28397428943724929847 939449` },
-          { title: '85747338', description: `React makes it painless to create interactive UIs. Design simple views for each state in your application, and React will efficiently update and render just ...` },
-          { title: '786462271123', description: 'Redux helps you write applications that behave consistently, run in different environments (client, server, and native), and are easy to test.'}
-        ] });
+  return async (dispatch) => {
+    try {
+      const response = await fetch('data.json',
+           {headers: 
+               {'Content-Type': 'application/json','Accept': 'application/json'}
+           });
+      const data = await response.json();
+      dispatch(fetchDataSuccess(data));
+    } catch (error) {
+      // Handle any error
+      console.error('Error fetching data:', error);
+    }
   };
 };
       
